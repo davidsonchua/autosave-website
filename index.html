@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autosave — Singapore's Largest Automotive Community Network</title>
+  <meta name="description" content="Autosave connects Singapore car owners and enthusiasts through Telegram, media platforms, and on-ground car meets." />
+
+  <style>
+    :root{
+      --bg:#f7f9ff;
+      --card:#ffffff;
+      --ink:#0b1020;
+      --muted:#5f6b7a;
+      --line:#e7ecf6;
+
+      --brand:#5b5cf6;
+      --brand2:#ff4d8d;
+      --brand3:#20c997;
+
+      --shadow:0 24px 60px rgba(13,25,64,.10);
+      --shadow2:0 14px 36px rgba(13,25,64,.08);
+
+      --radius:22px;
+      --radius2:32px;
+      --max:1180px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--ink);
+      background: var(--bg);
+      overflow-x:hidden;
+      position: relative;
+    }
+
+    /* ✅ FIX: continuous TelegramCo-style background (prevents “page break” look) */
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(1100px 520px at 20% -10%, rgba(91,92,246,.16), transparent 60%),
+        radial-gradient(900px 500px at 80% 10%, rgba(255,77,141,.14), transparent 60%),
+        radial-gradient(900px 520px at 80% 100%, rgba(32,201,151,.10), transparent 55%),
+        radial-gradient(1200px 680px at 10% 75%, rgba(91,92,246,.10), transparent 60%),
+        radial-gradient(1200px 680px at 90% 65%, rgba(255,77,141,.08), transparent 60%);
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    img{ max-width:100%; display:block; }
+
+    .wrap{ max-width:var(--max); margin:0 auto; padding:0 22px; }
+
+    /* NAV */
+    header{
+      position:sticky; top:0; z-index:50;
+      background: rgba(247,249,255,.78);
+      backdrop-filter: blur(14px);
+      border-bottom:1px solid rgba(231,236,246,.9);
+    }
+    .nav{
+      height:78px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:900;
+      letter-spacing:-0.02em;
+    }
+    .brand img{ height:34px; width:auto; }
+
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      margin-left:10px;
+    }
+    .nav-links a{
+      font-weight:750;
+      font-size:14px;
+      color:rgba(11,16,32,.78);
+      padding:10px 10px;
+      border-radius:999px;
+    }
+    .nav-links a:hover{
+      background:rgba(91,92,246,.08);
+      color:rgba(11,16,32,.95);
+    }
+
+    .nav-right{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .btn{
+      padding:12px 18px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.75);
+      font-weight:900;
+      cursor:pointer;
+      box-shadow: 0 10px 24px rgba(13,25,64,.06);
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      white-space:nowrap;
+      transition: transform .15s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); }
+
+    .btn.primary{
+      color:#fff;
+      border:none;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 22px 48px rgba(91,92,246,.22);
+    }
+    .btn.ghost{ background: rgba(255,255,255,.55); }
+
+    .hamburger{
+      display:none;
+      width:44px;height:44px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.75);
+      box-shadow: 0 10px 24px rgba(13,25,64,.06);
+      cursor:pointer;
+    }
+    .hamburger svg{ width:20px; height:20px; opacity:.78; margin:12px auto; }
+
+    /* MOBILE MENU */
+    .mobile-menu{
+      display:none;
+      padding: 12px 0 18px;
+      border-top:1px solid rgba(231,236,246,.8);
+    }
+    .mobile-menu a{
+      display:block;
+      padding:12px 8px;
+      border-radius:14px;
+      font-weight:850;
+      color:rgba(11,16,32,.84);
+    }
+    .mobile-menu a:hover{ background:rgba(91,92,246,.08); }
+    .mobile-menu.show{ display:block; }
+
+    /* HERO */
+    main{ position:relative; }
+    .hero{
+      padding: 86px 0 130px; /* extra bottom space */
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.18fr 0.82fr;
+      gap: 46px;
+      align-items:center;
+    }
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      background: rgba(255,255,255,.70);
+      border:1px solid rgba(231,236,246,.9);
+      box-shadow: 0 14px 32px rgba(13,25,64,.06);
+      font-weight:900;
+      color: rgba(11,16,32,.78);
+      font-size:13px;
+    }
+    .dot{
+      width:9px; height:9px; border-radius:999px;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 10px 22px rgba(91,92,246,.25);
+    }
+
+    h1{
+      margin: 18px 0 0;
+      font-size: clamp(46px, 5.1vw, 76px);
+      line-height:1.02;
+      letter-spacing:-0.05em;
+    }
+    .sub{
+      margin: 20px 0 22px;
+      max-width: 62ch;
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--muted);
+      font-weight:650;
+    }
+    .pill-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin: 0 0 18px;
+    }
+    .pill{
+      padding: 10px 14px;
+      border-radius:999px;
+      background: rgba(255,255,255,.65);
+      border: 1px solid rgba(231,236,246,.9);
+      font-weight:850;
+      font-size:13px;
+      color: rgba(11,16,32,.70);
+    }
+    .cta-row{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom: 22px;
+    }
+
+    /* HERO ART */
+    .hero-art{
+      position:relative;
+      background: rgba(255,255,255,.68);
+      border:1px solid rgba(231,236,246,.95);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      padding: 16px;
+      min-height: 460px;
+    }
+    .hero-photo{
+      position:absolute;
+      left:16px; right:16px; bottom:16px; top:16px;
+      border-radius: 26px;
+      overflow:hidden;
+      border:1px solid rgba(231,236,246,.9);
+      box-shadow: var(--shadow2);
+    }
+    .hero-photo img{ width:100%; height:100%; object-fit:cover; }
+
+    section{ padding: 74px 0; }
+    h2{
+      margin:0 0 14px;
+      font-size: clamp(26px, 3vw, 40px);
+      letter-spacing:-0.04em;
+    }
+    .hint{
+      margin:0 0 32px;
+      max-width: 72ch;
+      color: var(--muted);
+      line-height: 1.7;
+      font-weight:650;
+    }
+
+    /* STATS (TelegramCo style floating cards) */
+    .stats-wrap{
+      margin-top: 22px;
+      transform: translateY(18px);
+    }
+    .stats{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 26px;
+      align-items: stretch;
+    }
+    .stat{
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(231,236,246,.95);
+      border-radius: 30px;
+      padding: 28px 22px;
+      text-align:center;
+      box-shadow:
+        0 20px 50px rgba(13,25,64,.10),
+        0 1px 0 rgba(255,255,255,.60) inset;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      min-height: 128px;
+    }
+    .stat b{
+      display:block;
+      font-size: 42px;
+      font-weight: 950;
+      letter-spacing:-0.03em;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .stat span{
+      display:block;
+      font-size: 18px;
+      font-weight: 850;
+      color: rgba(11,16,32,.62);
+    }
+
+    /* performance starts later so the float never feels “cut” */
+    #performance{ padding-top: 120px; }
+
+    /* PERFORMANCE */
+    .perf-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .perf-card{
+      background: rgba(255,255,255,.76);
+      border:1px solid rgba(231,236,246,.95);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      display:grid;
+      grid-template-columns: 0.95fr 0.55fr;
+      min-height: 320px;
+    }
+    .perf-shot{
+      background: rgba(11,16,32,.04);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 16px;
+    }
+    .perf-shot img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      max-height: 420px;
+    }
+    .perf-metrics{
+      padding: 22px 18px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap: 18px;
+    }
+    .metric{ text-align:left; }
+    .metric .num{
+      font-weight:950;
+      font-size: 40px;
+      letter-spacing:-0.03em;
+      line-height:1;
+    }
+    .metric .lbl{
+      color: rgba(11,16,32,.62);
+      font-weight:850;
+      font-size: 14px;
+      margin-top: 6px;
+    }
+    .perf-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding: 0 0 14px;
+      border-bottom:1px solid rgba(231,236,246,.95);
+      margin-bottom: 16px;
+    }
+    .perf-title h3{
+      margin:0;
+      letter-spacing:-0.02em;
+      font-size: 16px;
+    }
+    .chip{
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(91,92,246,.10);
+      border:1px solid rgba(91,92,246,.16);
+      font-weight:900;
+      font-size: 12px;
+      color: rgba(11,16,32,.72);
+      white-space:nowrap;
+    }
+
+    /* WHY TELEGRAM */
+    .why-telegram-wrap{
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(231,236,246,.95);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow2);
+      padding: 26px;
+      overflow:hidden;
+    }
+    .why-telegram-grid{
+      display:grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 22px;
+      align-items:center;
+    }
+    .small{
+      font-size: 14px;
+      color: rgba(11,16,32,.70);
+      line-height: 1.75;
+      font-weight:650;
+      margin:0;
+    }
+    .why-note{
+      margin: 10px 0 0;
+      font-size: 13px;
+      color: rgba(11,16,32,.62);
+      line-height:1.6;
+      font-weight:650;
+    }
+    .barlist{ display:flex; flex-direction:column; gap: 12px; margin-top: 12px; }
+    .bar{
+      background: rgba(11,16,32,.035);
+      border: 1px solid rgba(231,236,246,.95);
+      border-radius: 18px;
+      padding: 12px 12px;
+    }
+    .bar-top{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .bar-title{
+      font-weight:900;
+      color: rgba(11,16,32,.80);
+      font-size: 14px;
+    }
+    .bar-pct{ font-weight:950; letter-spacing:-.02em; }
+    .track{
+      margin-top: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(11,16,32,.06);
+      overflow:hidden;
+    }
+    .fill{
+      height:100%;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      width: 50%;
+    }
+
+    /* CTA (Advertise) */
+    .cta{
+      background: linear-gradient(135deg, rgba(91,92,246,.12), rgba(255,77,141,.10));
+      border: 1px solid rgba(231,236,246,.95);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow2);
+      padding: 28px;
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      align-items:center;
+      overflow:hidden;
+    }
+    .cta h3{
+      margin:0 0 8px;
+      font-size: 22px;
+      letter-spacing:-0.03em;
+    }
+    .cta p{
+      margin:0;
+      color: rgba(11,16,32,.72);
+      line-height:1.7;
+      font-weight:650;
+    }
+    .cta-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    /* PARTNERS */
+    .partners-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 18px;
+      align-items: stretch;
+      margin-top: 30px;
+    }
+    .partner-card{
+      background: rgba(255,255,255,.85);
+      border: 1px solid rgba(231,236,246,.95);
+      border-radius: 18px;
+      padding: 18px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 10px 26px rgba(13,25,64,.06);
+      transition: transform .18s ease, box-shadow .18s ease;
+      min-height: 78px;
+    }
+    .partner-card:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px rgba(13,25,64,.10);
+    }
+    .partner-card img{
+      max-height: 40px;
+      max-width: 100%;
+      width:auto;
+      object-fit: contain;
+      filter:none;
+      opacity: 1;
+    }
+
+    /* CHANNELS */
+    .channels{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .card{
+      background: rgba(255,255,255,.76);
+      border:1px solid rgba(231,236,246,.95);
+      border-radius: 26px;
+      overflow:hidden;
+      box-shadow: var(--shadow2);
+    }
+    .card-media{
+      height: 190px;
+      background: rgba(11,16,32,.04);
+    }
+    .card-media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .card-body{ padding: 18px; }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size: 12px;
+      font-weight: 900;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(91,92,246,.10);
+      border:1px solid rgba(91,92,246,.14);
+      color: rgba(11,16,32,.75);
+    }
+    .card h3{ margin: 12px 0 8px; letter-spacing:-0.02em; }
+    .card p{
+      margin: 0 0 14px;
+      color: rgba(11,16,32,.70);
+      line-height:1.65;
+      font-weight:650;
+    }
+
+    /* CONTACT */
+    .contact{
+      background: rgba(255,255,255,.72);
+      border:1px solid rgba(231,236,246,.95);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow2);
+      padding: 26px;
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      align-items:center;
+    }
+    .contact-actions{
+      display:flex;
+      gap: 10px;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+    }
+
+    /* FOOTER (transparent so no visual “cut”) */
+    footer{
+      padding: 54px 0;
+      border-top: 1px solid rgba(231,236,246,.95);
+      background: transparent;
+      backdrop-filter: none;
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items:center;
+    }
+
+    /* STICKY WHATSAPP */
+    .wa-float{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:80;
+      background: #25d366;
+      color:#fff;
+      padding: 14px 18px;
+      border-radius: 999px;
+      font-weight: 950;
+      box-shadow: 0 18px 44px rgba(0,0,0,.22);
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+    }
+    .wa-float svg{ width:18px; height:18px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 980px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .hero-art{ min-height: 420px; }
+
+      .stats{ grid-template-columns: 1fr; }
+      .stats-wrap{ transform: translateY(10px); }
+      #performance{ padding-top: 90px; }
+
+      .perf-grid{ grid-template-columns: 1fr; }
+      .perf-card{ grid-template-columns: 1fr; }
+      .perf-metrics{ flex-direction:row; justify-content:space-between; gap: 10px; }
+      .metric .num{ font-size: 30px; }
+
+      .why-telegram-grid{ grid-template-columns: 1fr; }
+      .channels{ grid-template-columns: 1fr; }
+      .contact, .cta{ grid-template-columns: 1fr; }
+      .contact-actions, .cta-actions{ justify-content:flex-start; }
+
+      .nav-links{ display:none; }
+      .hamburger{ display:block; }
+      .footer-grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Autosave home">
+        <img src="assets/autosave-logo.png" alt="Autosave" />
+        Autosave
+      </a>
+
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#top">Home</a>
+        <a href="#performance">Proof</a>
+        <a href="#why-telegram">Why Telegram</a>
+        <a href="#channels">Channels</a>
+        <a href="#partners">Partners</a>
+      </nav>
+
+      <div class="nav-right">
+        <a class="btn primary" href="#contact">Enquire Now</a>
+
+        <button class="hamburger" type="button" aria-label="Open menu" id="menuBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="wrap mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
+      <a href="#top">Home</a>
+      <a href="#performance">Proof</a>
+      <a href="#why-telegram">Why Telegram</a>
+      <a href="#channels">Channels</a>
+      <a href="#partners">Partners</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">
+            <span class="dot"></span>
+            Cars • Media • Meets (Telegram-first)
+          </div>
+
+          <h1>Singapore's Largest Automotive Community Network</h1>
+
+          <p class="sub">
+            Autosave connects car owners and enthusiasts through high-engagement Telegram channels,
+            media platforms, and on-ground car meets — built to help brands and communities grow together.
+          </p>
+
+          <div class="pill-row">
+            <span class="pill">High engagement</span>
+            <span class="pill">Community-led distribution</span>
+            <span class="pill">Brand activations</span>
+          </div>
+
+          <div class="cta-row">
+            <a class="btn primary" href="assets/Autosave_Coy.pdf" target="_blank" rel="noreferrer">
+              Download Media Kit
+            </a>
+            <a class="btn ghost" href="#channels">Explore Channels</a>
+          </div>
+
+          <div class="stats-wrap">
+            <div class="stats">
+              <div class="stat">
+                <b><span class="count" data-value="20000" data-suffix="+">0</span></b>
+                <span>Total Reach</span>
+              </div>
+              <div class="stat">
+                <b><span class="count" data-value="7000" data-suffix="+">0</span></b>
+                <span>SG Cars Subscribers</span>
+              </div>
+              <div class="stat">
+                <b><span class="count" data-value="12000" data-suffix="+">0</span></b>
+                <span>SG Car Meets Subscribers</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-art">
+          <div class="hero-photo">
+            <img src="assets/hero-car.jpg" alt="Autosave car meet crowd" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="performance">
+      <div class="wrap">
+        <h2>Real performance from real posts</h2>
+        <p class="hint">
+          Here’s a snapshot of what a typical partner post can look like on our channels. Clear reach, clicks, and CTR.
+        </p>
+
+        <div class="perf-grid">
+          <div class="perf-card">
+            <div class="perf-shot">
+              <img src="assets/sgcarmeets_stats_SC.png" alt="SG Car Meets post screenshot" />
+            </div>
+            <div class="perf-metrics">
+              <div style="width:100%;">
+                <div class="perf-title">
+                  <h3>SG Car Meets</h3>
+                  <span class="chip">t.me/sgcarmeets</span>
+                </div>
+
+                <div class="metric">
+                  <div class="num"><span class="count" data-value="13000" data-suffix="+">0</span></div>
+                  <div class="lbl">Total Views</div>
+                </div>
+
+                <div class="metric">
+                  <div class="num"><span class="count" data-value="200" data-suffix="+">0</span></div>
+                  <div class="lbl">Total Clicks</div>
+                </div>
+
+                <div class="metric">
+                  <div class="num"><span class="count" data-value="1.25" data-decimals="2" data-suffix="%">0</span></div>
+                  <div class="lbl">CTR</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="perf-card">
+            <div class="perf-shot">
+              <img src="assets/sgcarnews_stats_SC.png" alt="SG Cars post screenshot" />
+            </div>
+            <div class="perf-metrics">
+              <div style="width:100%;">
+                <div class="perf-title">
+                  <h3>SG Cars</h3>
+                  <span class="chip">t.me/sgcarnews</span>
+                </div>
+
+                <div class="metric">
+                  <div class="num"><span class="count" data-value="6000" data-suffix="+">0</span></div>
+                  <div class="lbl">Total Views</div>
+                </div>
+
+                <div class="metric">
+                  <div class="num"><span class="count" data-value="100" data-suffix="+">0</span></div>
+                  <div class="lbl">Total Clicks</div>
+                </div>
+
+                <div class="metric">
+                  <div class="num"><span class="count" data-value="1.6" data-decimals="1" data-suffix="%">0</span></div>
+                  <div class="lbl">CTR</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="why-telegram">
+      <div class="wrap">
+        <h2>Why Telegram?</h2>
+        <p class="hint">
+          User behavior is shifting towards messaging platforms, where communities are high-intent and clicks happen fast.
+        </p>
+
+        <div class="why-telegram-wrap">
+          <div class="why-telegram-grid">
+            <div>
+              <h3 style="margin:0 0 8px; letter-spacing:-0.02em;">No algorithm. Just attention.</h3>
+              <p class="small" style="margin:0;">
+                Telegram puts your content directly in front of subscribers. Perfect for automotive deals, launches,
+                workshops, meets, and buyer/seller intent.
+              </p>
+
+              <p class="why-note">
+                *Data retrieved from “Digital 2024 Singapore” — Top types of websites &amp; apps used (Internet users aged 16–64).
+              </p>
+            </div>
+
+            <div class="barlist">
+              <div class="bar">
+                <div class="bar-top">
+                  <div class="bar-title">Chat &amp; Messaging (Telegram, WhatsApp)</div>
+                  <div class="bar-pct">97.5%</div>
+                </div>
+                <div class="track"><div class="fill" style="width:97.5%"></div></div>
+              </div>
+
+              <div class="bar">
+                <div class="bar-top">
+                  <div class="bar-title">Social Networks (TikTok, Instagram)</div>
+                  <div class="bar-pct">95.8%</div>
+                </div>
+                <div class="track"><div class="fill" style="width:95.8%"></div></div>
+              </div>
+
+              <div class="bar">
+                <div class="bar-top">
+                  <div class="bar-title">Search Engines (Google, Bing)</div>
+                  <div class="bar-pct">85%</div>
+                </div>
+                <div class="track"><div class="fill" style="width:85%"></div></div>
+              </div>
+
+              <div class="bar">
+                <div class="bar-top">
+                  <div class="bar-title">Emails (Gmail, Hotmail)</div>
+                  <div class="bar-pct">56.6%</div>
+                </div>
+                <div class="track"><div class="fill" style="width:56.6%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="advertise">
+      <div class="wrap">
+        <div class="cta">
+          <div>
+            <h3>Advertise with Autosave</h3>
+            <p>
+              Let us help you connect with car owners and enthusiasts who are actively looking for deals, services, and events.
+              We’ll recommend the right channel + format based on your objective.
+            </p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn primary" href="#contact">Enquire Now</a>
+            <a class="btn" href="assets/Autosave_Coy.pdf" target="_blank" rel="noreferrer">Media Kit</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="channels">
+      <div class="wrap">
+        <h2>Our Channels</h2>
+        <p class="hint">Core platforms under the Autosave umbrella.</p>
+
+        <div class="channels">
+          <div class="card">
+            <div class="card-media">
+              <img src="assets/sgcarnews.jpg" alt="SG Cars">
+            </div>
+            <div class="card-body">
+              <span class="tag">Telegram</span>
+              <h3>SG Cars</h3>
+              <p>News, deals, and ownership insights for Singapore motorists.</p>
+              <a class="btn" href="https://sgcarnews.t.me" target="_blank" rel="noreferrer">Visit Channel</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-media">
+              <img src="assets/sgcarmeets.jpg" alt="SG Car Meets">
+            </div>
+            <div class="card-body">
+              <span class="tag">Telegram</span>
+              <h3>SG Car Meets</h3>
+              <p>Community meets, brand activations, and enthusiast culture.</p>
+
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <a class="btn" href="https://sgcarmeets.t.me" target="_blank" rel="noreferrer">Visit Channel</a>
+                <a class="btn" href="https://sgcmchat.t.me" target="_blank" rel="noreferrer">Community Chat</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-media">
+              <img src="assets/baycityculture.jpg" alt="BayCityCulture">
+            </div>
+            <div class="card-body">
+              <span class="tag" style="background:rgba(32,201,151,.12);border-color:rgba(32,201,151,.18);">Media</span>
+              <h3>BayCityCulture</h3>
+              <p>Automotive culture storytelling across web and social platforms.</p>
+
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <a class="btn" href="https://baycityculture.com" target="_blank" rel="noreferrer">Website</a>
+                <a class="btn" href="https://www.instagram.com/baycityculture/" target="_blank" rel="noreferrer">Instagram</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="partners">
+      <div class="wrap">
+        <h2>Trusted by partners</h2>
+        <p class="hint">We’ve collaborated with leading automotive, marketplace, and institutional partners.</p>
+
+        <div class="partners-grid">
+          <div class="partner-card"><img src="assets/partner-mercedes-benz.png" alt="Mercedes-Benz"></div>
+          <div class="partner-card"><img src="assets/partner-cyclecarriage.png" alt="Cycle & Carriage"></div>
+          <div class="partner-card"><img src="assets/partner-sgcarmart.png" alt="SGCarMart"></div>
+          <div class="partner-card"><img src="assets/partner-carousellautos.png" alt="Carousell Autos"></div>
+          <div class="partner-card"><img src="assets/partner-motorist.png" alt="Motorist"></div>
+          <div class="partner-card"><img src="assets/partner-getgo.png" alt="GetGo"></div>
+          <div class="partner-card"><img src="assets/partner-singsaver.png" alt="SingSaver"></div>
+          <div class="partner-card"><img src="assets/partner-moneysmart.png" alt="MoneySmart"></div>
+          <div class="partner-card"><img src="assets/partner-nus.png" alt="NUS"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <h2>Contact Autosave</h2>
+        <p class="hint">Tell us what you’re trying to achieve — we’ll recommend the right channel and activation format.</p>
+
+        <div class="contact">
+          <p class="small">
+            Email: <b>davidson@autosave.club</b><br/>
+            WhatsApp: <b>+65 8895 6679</b><br/>
+            Telegram: <b>@AutoSaveClub</b>
+          </p>
+          <div class="contact-actions">
+            <a class="btn primary" href="mailto:davidson@autosave.club">Email Us</a>
+            <a class="btn" href="https://wa.me/6588956679" target="_blank" rel="noreferrer">WhatsApp</a>
+            <a class="btn ghost" href="assets/Autosave_Coy.pdf" target="_blank" rel="noreferrer">Media Kit</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <img src="assets/autosave-wordmark.png" alt="Autosave" style="height:32px;width:auto;">
+        <div>
+          <div style="font-weight:950;letter-spacing:-.02em;">Autosave</div>
+          <div style="font-size:13px;font-weight:700;color:rgba(11,16,32,.65);">Cars | Media | Meets</div>
+        </div>
+      </div>
+      <div class="small" style="text-align:right;">
+        © <span id="y"></span> Autosave
+      </div>
+    </div>
+  </footer>
+
+  <!-- Sticky WhatsApp bubble -->
+  <a class="wa-float"
+     href="https://wa.me/6588956679?text=Hi%20Autosave%2C%0A%0AI%27m%20interested%20in%20advertising%20with%20Autosave.%0A%0ABrand%2FAgency%3A%0AObjective%3A%0ACampaign%20dates%3A%0ABudget%3A%0ARemarks%3A"
+     target="_blank" rel="noreferrer" aria-label="WhatsApp Autosave">
+    <svg viewBox="0 0 24 24" fill="none">
+      <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z" fill="rgba(255,255,255,.35)"/>
+      <path d="M9.6 7.8c-.2-.5-.4-.5-.6-.5H8.5c-.2 0-.5.1-.7.4-.2.3-.8.8-.8 2 0 1.2.9 2.3 1 2.5.1.2 1.8 2.9 4.4 4 2.2 1 2.6.8 3.1.8.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.5-.3l-1.7-.8c-.2-.1-.4-.1-.6.1-.2.2-.7.8-.9 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.2-1.4-.8-.7-1.3-1.6-1.4-1.9-.1-.3 0-.4.1-.5l.4-.5c.1-.1.2-.3.3-.4.1-.2 0-.3 0-.5l-.7-1.8z" fill="#fff"/>
+    </svg>
+    WhatsApp
+  </a>
+
+  <script>
+    // Footer year
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    // Mobile menu toggle
+    const btn = document.getElementById("menuBtn");
+    const menu = document.getElementById("mobileMenu");
+    btn?.addEventListener("click", () => menu.classList.toggle("show"));
+    menu?.querySelectorAll("a").forEach(a => a.addEventListener("click", () => menu.classList.remove("show")));
+
+    // Animated counters (run when visible)
+    function formatNumber(n) {
+      const isInt = Number.isInteger(n);
+      if (!isInt) return n.toString();
+      return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function animateCount(el) {
+      const raw = el.getAttribute("data-value");
+      const decimals = parseInt(el.getAttribute("data-decimals") || "0", 10);
+      const suffix = el.getAttribute("data-suffix") || "";
+      const target = parseFloat(raw);
+
+      const duration = 900;
+      const start = performance.now();
+      const from = 0;
+
+      function tick(now) {
+        const t = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const value = from + (target - from) * eased;
+
+        const display = decimals > 0 ? value.toFixed(decimals) : Math.round(value).toString();
+        el.textContent = (decimals > 0 ? display : formatNumber(parseInt(display, 10))) + suffix;
+
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    const counters = document.querySelectorAll(".count");
+    const seen = new WeakSet();
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          if (!seen.has(el)) {
+            seen.add(el);
+            animateCount(el);
+          }
+        }
+      });
+    }, { threshold: 0.35 });
+
+    counters.forEach(c => io.observe(c));
+  </script>
+</body>
+</html>
